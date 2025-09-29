@@ -19,7 +19,7 @@
   <script>
     async function callAPI() {
       try {
-        const res = await fetch("https://your-flask-api.onrender.com/api/hello");
+        const res = await fetch("https://dexter4.onrender.com/");
         const data = await res.json();
         document.getElementById("result").innerText = data.message;
       } catch (error) {
