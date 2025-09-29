@@ -7,15 +7,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# --- Database Connection ---
+# --- Database Connection using internal URL ---
 def get_db_connection():
-    return psycopg2.connect(
-        host=os.environ.get("PGHOST"),
-        database=os.environ.get("PGDATABASE"),
-        user=os.environ.get("PGUSER"),
-        password=os.environ.get("PGPASSWORD"),
-        port=os.environ.get("PGPORT", 5432)
-    )
+    DATABASE_URL = os.environ.get("PGINTERNALURL")  # Internal URL on Render
+    return psycopg2.connect(DATABASE_URL)
 
 
 @app.route('/api/generaterandom')
