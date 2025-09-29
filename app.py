@@ -10,6 +10,16 @@ CORS(app)
 def generate_random():
     return jsonify(number=random.randint(1, 10))
 
+# Sum API
+@app.route('/api/sum')
+def get_sum():
+    try:
+        a = int(request.args.get("a", 0))
+        b = int(request.args.get("b", 0))
+        return jsonify(result=a + b)
+    except Exception:
+        return jsonify(error="Invalid input"), 400
+
 
 if __name__ == "__main__":
     # Render provides a PORT env variable
