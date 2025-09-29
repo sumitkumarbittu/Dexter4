@@ -13,6 +13,29 @@ def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
 
+# --- Function to fetch feedback records ---
+def get_all_feedback():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT id, name, age, comment FROM feedback ORDER BY id ASC")
+        rows = cur.fetchall()  # Fetch all records
+        cur.close()
+        conn.close()
+        # Convert to list of dicts for JSON response
+        feedback_list = [
+            {"id": row[0], "name": row[1], "age": row[2], "comment": row[3]}
+            for row in rows
+        ]
+        return feedback_list
+    except Exception as e:
+        print("Error fetching feedback:", e)
+        return []
+
+
+# --- API Calls ---
+
+# Random Number API
 @app.route('/api/generaterandom')
 def generate_random():
     return jsonify(number=random.randint(1, 10))
@@ -29,6 +52,7 @@ def get_sum():
         return jsonify(error="Invalid input"), 400
 
 
+# Feedback API
 @app.route('/api/feedback', methods=["POST"])
 def feedback():
     data = request.get_json()
@@ -55,6 +79,12 @@ def feedback():
         return jsonify(message="Feedback saved successfully ✅")
     except Exception as e:
         return jsonify(error=str(e)), 500
+
+
+@app.route('/api/displayfeedback', methods=["GET"])
+def fetch_feedback():
+    feedback_list = get_all_feedback()
+    return jsonify(feedback_list)
 
 
 if __name__ == "__main__":
