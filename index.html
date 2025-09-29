@@ -2,26 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flask API Showcase</title>
+  <title>Random Number Generator</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-    button { margin-top: 20px; padding: 10px 20px; }
-    #result { margin-top: 20px; font-weight: bold; }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #005bb5; }
+    #result { margin-top: 20px; font-size: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Welcome to My Flask API Showcase 🚀</h1>
-  <p>Click the button below to call the API hosted on Render.</p>
+  <h1>Random Number Generator 🎲</h1>
+  <p>Click below to generate a random number (1–10)</p>
   
-  <button onclick="callAPI()">Call API</button>
-  <p id="result"></p>
+  <button onclick="callAPI()">Generate Random</button>
+  <p id="result">Your number will appear here...</p>
 
   <script>
     async function callAPI() {
       try {
-        const res = await fetch("https://dexter4.onrender.com/");
+        const res = await fetch("https://dexter4.onrender.com");
         const data = await res.json();
-        document.getElementById("result").innerText = data.message;
+        document.getElementById("result").innerText = "Generated Number: " + data.random_number;
       } catch (error) {
         document.getElementById("result").innerText = "Error: " + error;
       }
