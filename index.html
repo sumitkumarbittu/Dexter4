@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flask API Showcase</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Flask API Showcase 🚀</h1>
+  <p>Click the button below to call the API hosted on Render.</p>
+  
+  <button onclick="callAPI()">Call API</button>
+  <p id="result"></p>
+
+  <script>
+    async function callAPI() {
+      try {
+        const res = await fetch("https://your-flask-api.onrender.com/api/hello");
+        const data = await res.json();
+        document.getElementById("result").innerText = data.message;
+      } catch (error) {
+        document.getElementById("result").innerText = "Error: " + error;
+      }
+    }
+  </script>
+</body>
+</html>
