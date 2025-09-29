@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even){background-color: #f2f2f2;}
+        tr:hover {background-color: #ddd;}
+        #loadBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>API Data Table</h1>
+<button id="loadBtn">Load Data</button>
+
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Data will be inserted here -->
+    </tbody>
+</table>
+
+<script>
+    const apiUrl = "https://dexter4.onrender.com/api/displayfeedback"; // replace with your API link
+
+    document.getElementById('loadBtn').addEventListener('click', () => {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector("#dataTable tbody");
+                tbody.innerHTML = ""; // Clear existing data
+
+                data.forEach(item => {
+                    const row = document.createElement("tr");
+
+                    const idCell = document.createElement("td");
+                    idCell.textContent = item.id;
+                    row.appendChild(idCell);
+
+                    const nameCell = document.createElement("td");
+                    nameCell.textContent = item.name;
+                    row.appendChild(nameCell);
+
+                    const ageCell = document.createElement("td");
+                    ageCell.textContent = item.age;
+                    row.appendChild(ageCell);
+
+                    const commentCell = document.createElement("td");
+                    commentCell.textContent = item.comment;
+                    row.appendChild(commentCell);
+
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                alert("Failed to load data.");
+            });
+    });
+</script>
+
+</body>
+</html>
