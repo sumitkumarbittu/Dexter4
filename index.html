@@ -2,38 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Random Number Generator</title>
+  <title>Flask API Showcase 🚀</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #0078D7;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover { background: #005bb5; }
-    #result { margin-top: 20px; font-size: 20px; font-weight: bold; }
+    button { margin: 10px; padding: 10px 20px; }
+    #output { margin-top: 20px; font-size: 1.2em; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Random Number Generator 🎲</h1>
-  <p>Click below to generate a random number (1–10)</p>
-  
-  <button onclick="callAPI()">Generate Random</button>
-  <p id="result">Your number will appear here...</p>
+  <h1>Flask API Showcase 🚀</h1>
+
+  <h3>🎲 Random Number Generator</h3>
+  <button onclick="callRandom()">Generate Random</button>
+
+  <h3>➕ Sum Calculator</h3>
+  <input type="number" id="a" placeholder="Enter A">
+  <input type="number" id="b" placeholder="Enter B">
+  <button onclick="callSum()">Get Sum</button>
+
+  <p id="output"></p>
 
   <script>
-    async function callAPI() {
+    const API_BASE = "https://dexter4.onrender.com"; // use Render URL
+
+    async function callRandom() {
       try {
-        const res = await fetch("https://dexter4.onrender.com");
+        const res = await fetch(`${API_BASE}/api/generaterandom`);
         const data = await res.json();
-        document.getElementById("result").innerText = "Generated Number: " + data.random_number;
-      } catch (error) {
-        document.getElementById("result").innerText = "Error: " + error;
+        document.getElementById("output").innerText = "Random: " + data.number;
+      } catch (err) {
+        document.getElementById("output").innerText = "Error: " + err;
+      }
+    }
+
+    async function callSum() {
+      try {
+        const a = document.getElementById("a").value;
+        const b = document.getElementById("b").value;
+        const res = await fetch(`${API_BASE}/api/sum?a=${a}&b=${b}`);
+        const data = await res.json();
+        if (data.result !== undefined) {
+          document.getElementById("output").innerText = `Sum: ${data.result}`;
+        } else {
+          document.getElementById("output").innerText = "Error: " + data.error;
+        }
+      } catch (err) {
+        document.getElementById("output").innerText = "Error: " + err;
       }
     }
   </script>
