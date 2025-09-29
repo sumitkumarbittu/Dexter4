@@ -51,5 +51,38 @@
       }
     }
   </script>
+
+  <h3>📝 Feedback Form</h3>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="number" id="age" placeholder="Your Age">
+  <input type="text" id="comment" placeholder="Your Comment (optional)">
+  <button onclick="submitFeedback()">Submit Feedback</button>
+  <p id="feedbackResult"></p>
+
+  <script>
+  async function submitFeedback() {
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const comment = document.getElementById("comment").value;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, age, comment })
+      });
+
+      const data = await res.json();
+      if (data.message) {
+        document.getElementById("feedbackResult").innerText = data.message;
+      } else {
+        document.getElementById("feedbackResult").innerText = "Error: " + data.error;
+      }
+    } catch (err) {
+      document.getElementById("feedbackResult").innerText = "Error: " + err;
+    }
+  }
+  </script>
+
 </body>
 </html>
