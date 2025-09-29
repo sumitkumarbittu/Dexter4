@@ -1,6 +1,7 @@
 import os
+import random
+from flask import Flask, jsonify
 from flask_cors import CORS
-from flask import Flask
 
 app = Flask(__name__)
 CORS(app)
@@ -8,6 +9,7 @@ CORS(app)
 @app.route('/api/generaterandom')
 def generate_random():
     return jsonify(number=random.randint(1, 10))
+
 
 if __name__ == "__main__":
     # Render provides a PORT env variable
