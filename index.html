@@ -66,7 +66,7 @@
     const comment = document.getElementById("comment").value;
 
     try {
-      const res = await fetch(`${API_BASE}/api/feedback`, {s
+      const res = await fetch(`${API_BASE}/api/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, age, comment })
@@ -86,3 +86,4 @@
 
 </body>
 </html>
+<link rel="stylesheet" href="style.css">
