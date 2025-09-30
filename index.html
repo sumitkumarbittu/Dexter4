@@ -156,6 +156,18 @@
     window.onload = loadHistory;
   </script>
 
+<button onclick="resetFields()">Reset</button>
+
+<script>
+function resetFields() {
+  document.getElementById("value1").value = "";
+  document.getElementById("value2").value = "";
+  document.getElementById("output").innerText = "Result: ";
+}
+</script>
+
+
+
 </body>
 </html>
 <link rel="stylesheet" href="style.css">
