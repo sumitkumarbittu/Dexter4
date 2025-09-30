@@ -106,12 +106,6 @@ def multiply():
             )
         """)
 
-        if action == "reset":
-            cur.execute("TRUNCATE TABLE results RESTART IDENTITY")
-            conn.commit()
-            cur.close()
-            conn.close()
-            return jsonify(message="Results reset successfully ✅", result=0)
 
         # normal multiply
         v1 = int(data.get("value1", 0))
