@@ -91,7 +91,7 @@
   <input type="number" id="value2" placeholder="Enter second number">
 
   <button onclick="multiply()">Multiply</button>
-  <button onclick="resetResults()">Reset</button>
+  <button onclick="resetFields()">Reset</button>>
 
   <p id="multiplyOutput">Result: </p>
 
@@ -154,17 +154,16 @@
 
     // Auto-load history on page load
     window.onload = loadHistory;
+
+    function resetFields() {
+      document.getElementById("value1").value = "";
+      document.getElementById("value2").value = "";
+      document.getElementById("multiplyOutput").innerText = "Result: ";
+    }
+
   </script>
 
-<button onclick="resetFields()">Reset</button>
 
-<script>
-function resetFields() {
-  document.getElementById("value1").value = "";
-  document.getElementById("value2").value = "";
-  document.getElementById("output").innerText = "Result: ";
-}
-</script>
 
 
 
