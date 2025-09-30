@@ -20,7 +20,7 @@
   <input type="number" id="b" placeholder="Enter B">
   <button onclick="callSum()">Get Sum</button>
 
-  <p id="output"></p>
+  <p id="sumOutput"></p>
 
   <script>
     const API_BASE = "https://dexter4.onrender.com"; // use Render URL
@@ -29,9 +29,9 @@
       try {
         const res = await fetch(`${API_BASE}/api/generaterandom`);
         const data = await res.json();
-        document.getElementById("output").innerText = "Random: " + data.number;
+        document.getElementById("sumOutput").innerText = "Random: " + data.number;
       } catch (err) {
-        document.getElementById("output").innerText = "Error: " + err;
+        document.getElementById("sumOutput").innerText = "Error: " + err;
       }
     }
 
@@ -42,12 +42,12 @@
         const res = await fetch(`${API_BASE}/api/sum?a=${a}&b=${b}`);
         const data = await res.json();
         if (data.result !== undefined) {
-          document.getElementById("output").innerText = `Sum: ${data.result}`;
+          document.getElementById("sumOutput").innerText = `Sum: ${data.result}`;
         } else {
-          document.getElementById("output").innerText = "Error: " + data.error;
+          document.getElementById("sumOutput").innerText = "Error: " + data.error;
         }
       } catch (err) {
-        document.getElementById("output").innerText = "Error: " + err;
+        document.getElementById("sumOutput").innerText = "Error: " + err;
       }
     }
   </script>
@@ -82,6 +82,81 @@
       document.getElementById("feedbackResult").innerText = "Error: " + err;
     }
   }
+  </script>
+
+
+  <h2>Multiply Two Numbers</h2>
+
+  <input type="number" id="value1" placeholder="Enter first number">
+  <input type="number" id="value2" placeholder="Enter second number">
+
+  <button onclick="multiply()">Multiply</button>
+  <button onclick="resetResults()">Reset</button>
+
+  <p id="multiplyOutput">Result: </p>
+
+  <h3>History</h3>
+  <button onclick="loadHistory()">Load History</button>
+  <ul id="history"></ul>
+
+  <script>
+    // Using same API_BASE as above
+    // API endpoints below explicitly prefix with /api
+
+    // Multiply two numbers
+    async function multiply() {
+      const v1 = document.getElementById("value1").value;
+      const v2 = document.getElementById("value2").value;
+
+      const res = await fetch(`${API_BASE}/api/multiply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value1: v1, value2: v2 })
+      });
+
+      const data = await res.json();
+      document.getElementById("multiplyOutput").innerText = "Result: " + data.result;
+
+      // refresh history
+      loadHistory();
+    }
+
+    // Reset results
+    async function resetResults() {
+      const res = await fetch(`${API_BASE}/api/multiply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset" })
+      });
+
+      const data = await res.json();
+      document.getElementById("multiplyOutput").innerText = "Result: " + data.result;
+
+      // refresh history
+      loadHistory();
+    }
+
+    // Load all results
+    async function loadHistory() {
+      const res = await fetch(`${API_BASE}/api/results`);
+      const data = await res.json();
+
+      const historyList = document.getElementById("history");
+      historyList.innerHTML = "";
+
+      if (data.results && data.results.length > 0) {
+        data.results.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = `${item.value1} × ${item.value2} = ${item.result}`;
+          historyList.appendChild(li);
+        });
+      } else {
+        historyList.innerHTML = "<li>No results yet</li>";
+      }
+    }
+
+    // Auto-load history on page load
+    window.onload = loadHistory;
   </script>
 
 </body>
